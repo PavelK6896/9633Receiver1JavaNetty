@@ -10,7 +10,7 @@ import java.nio.file.StandardOpenOption;
 
 public class Handler1 extends ChannelInboundHandlerAdapter {
 
-    String name = "file/q11.html";
+    String name = "file/javas.html";
     byte[] readByte = new byte[10];
 
     ByteBuf buf;
