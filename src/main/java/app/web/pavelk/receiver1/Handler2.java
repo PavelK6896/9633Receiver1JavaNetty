@@ -8,32 +8,48 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class Handler1 extends ChannelInboundHandlerAdapter {
+public class Handler2 extends ChannelInboundHandlerAdapter {
 
-    String name = "file/mysql.html";
+    String name = "file/test1.txt";
     byte[] readByte = new byte[10];
 
     ByteBuf buf;
+    byte b1;
+    int n = 0;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         buf = ((ByteBuf) msg);
         System.out.println(buf.readableBytes() + " =readableBytes");
 
-
         while (buf.readableBytes() > 0) {
-            if (buf.readableBytes() >= 10) {
-                buf.readBytes(readByte);
-                Files.write(Paths.get(name), readByte, StandardOpenOption.APPEND);
-            } else {
-                Files.write(Paths.get(name), new byte[]{buf.readByte()}, StandardOpenOption.APPEND);
+            if (buf.readByte() == 13) {
+                if (buf.readByte() == 10) {
+                    if (buf.readByte() == 13) {
+                        if (buf.readByte() == 10) {
+                            int s = 0;
+                            while (buf.readableBytes() > 0) {
+                                b1 = buf.readByte();
+                                if (b1 == 10) {
+                                    if (s == 0 ){
+                                        Files.write(Paths.get(name), "\n".getBytes(), StandardOpenOption.APPEND);
+                                    }
+                                    s++;
+                                    continue;
+                                }
+                                s = 0;
+                                Files.write(Paths.get(name), new byte[]{b1}, StandardOpenOption.APPEND);
+                            }
+                        }
+                    }
+                }
             }
+
         }
 
         if (buf.readableBytes() == 0) {
             buf.release();
         }
-
     }
 
 
@@ -41,6 +57,7 @@ public class Handler1 extends ChannelInboundHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         super.channelReadComplete(ctx);
         System.out.println("package");
+        Files.write(Paths.get(name), ("\n--------\n").getBytes(), StandardOpenOption.APPEND);
         ctx.close();
     }
 
