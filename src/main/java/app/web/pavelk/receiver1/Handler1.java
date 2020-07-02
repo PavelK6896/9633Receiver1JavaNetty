@@ -10,7 +10,7 @@ import java.nio.file.StandardOpenOption;
 
 public class Handler1 extends ChannelInboundHandlerAdapter {
 
-    String name = "file/mysql.html";
+    String name = "file/spr2.html";
     byte[] readByte = new byte[10];
 
     ByteBuf buf;
@@ -19,7 +19,6 @@ public class Handler1 extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         buf = ((ByteBuf) msg);
         System.out.println(buf.readableBytes() + " =readableBytes");
-
 
         while (buf.readableBytes() > 0) {
             if (buf.readableBytes() >= 10) {
@@ -40,6 +39,7 @@ public class Handler1 extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         super.channelReadComplete(ctx);
+        Thread.sleep(6000);
         System.out.println("package");
         ctx.close();
     }

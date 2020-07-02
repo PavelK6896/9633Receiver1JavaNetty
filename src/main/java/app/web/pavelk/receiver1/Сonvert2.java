@@ -13,7 +13,7 @@ public class Сonvert2 {
 
         String template1 = "<h3>";
         String template2 = "</h3>";
-        String template3 = "<code>";
+        String template3 = "";
         String template4 = "</code>";
         int c;
         int v = 0;
